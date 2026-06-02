@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-darkBg: #0f172a;
+  --color-darkPanel: #1e293b;
+  --color-darkBorder: #334155;
+  --color-primaryText: #f8fafc;
+  --color-secondaryText: #94a3b8;
+  --color-brandGreen: #10b981;
+  --color-brandRed: #ef4444;
+  --color-brandYellow: #f59e0b;
+  --color-brandPurple: #8b5cf6;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-darkBg);
+    color: var(--color-primaryText);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbar for transaction feed */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-darkBorder rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondaryText;
+}
