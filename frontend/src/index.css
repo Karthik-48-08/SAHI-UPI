@@ -15,11 +15,19 @@
 @layer base {
   body {
     background-color: var(--color-darkBg);
+    background-image: linear-gradient(rgba(51, 65, 85, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 65, 85, 0.12) 1px, transparent 1px);
+    background-size: 42px 42px;
+    background-position: center top;
     color: var(--color-primaryText);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: var(--color-primaryText);
 }
 
 /* Custom scrollbar for transaction feed */

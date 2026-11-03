@@ -1,8 +1,7 @@
-import React from 'react';
-import { ShieldCheck, Activity, ShieldAlert, Users, Percent } from 'lucide-react';
+import { ShieldCheck, Activity, ShieldAlert, Percent } from 'lucide-react';
 
 const StatCard = ({ icon: Icon, title, value, colorClass }) => (
-  <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex items-center justify-between">
+  <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex items-center justify-between shadow-[0_12px_30px_rgba(0,0,0,0.12)]">
     <div>
       <p className="text-sm text-secondaryText mb-1 flex items-center gap-1">
         <Activity size={14} /> {title}
@@ -19,8 +18,8 @@ const DashboardStats = ({ stats }) => {
   if (!stats) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-1">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-1 shadow-[0_12px_30px_rgba(0,0,0,0.12)]">
         <div className="relative">
           <div className="w-16 h-16 bg-brandGreen rounded-full flex items-center justify-center relative z-10 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
             <ShieldCheck size={32} className="text-white" />
@@ -49,7 +48,7 @@ const DashboardStats = ({ stats }) => {
         value={stats.threatsBlocked?.toString() || '0'} 
         colorClass={{bg: 'bg-brandRed', text: 'text-brandRed'}} 
       />
-      <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex flex-col justify-between">
+      <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 flex flex-col justify-between shadow-[0_12px_30px_rgba(0,0,0,0.12)]">
         <div className="flex justify-between items-start">
           <div>
             <p className="text-sm text-secondaryText mb-1 flex items-center gap-1">

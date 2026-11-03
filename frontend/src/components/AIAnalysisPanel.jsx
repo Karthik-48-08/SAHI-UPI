@@ -1,7 +1,6 @@
-import React from 'react';
-import { BrainCircuit, Activity, Navigation, Info, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, Activity, BrainCircuit, CheckCircle2, Flag, Info, Navigation, ShieldCheck, UserCheck } from 'lucide-react';
 
-const AIAnalysisPanel = ({ transaction }) => {
+const AIAnalysisPanel = ({ transaction, reviewStatus, onReviewAction, auditLog }) => {
   if (!transaction) {
     return (
       <div className="bg-darkPanel border border-darkBorder rounded-lg h-[600px] flex flex-col items-center justify-center text-center p-6">
@@ -14,22 +13,53 @@ const AIAnalysisPanel = ({ transaction }) => {
 
   const { status, risk_score, features_used, ai_analysis } = transaction;
   const isHighRisk = status === 'Blocked' || status === 'Suspicious';
+  const transactionAudit = auditLog.filter(entry => entry.transactionId === transaction.transaction_id);
 
   return (
-    <div className="bg-darkPanel border border-darkBorder rounded-lg h-[600px] flex flex-col">
+    <div className="bg-darkPanel border border-darkBorder rounded-lg h-[600px] flex flex-col shadow-[0_12px_30px_rgba(0,0,0,0.14)]">
       <div className="p-4 border-b border-darkBorder flex items-center justify-between">
         <div className="flex items-center gap-2">
           <BrainCircuit className="text-brandPurple" size={20} />
-          <h3 className="font-bold text-primaryText">AI Analysis Engine</h3>
+          <div>
+            <h3 className="font-bold text-primaryText">Decision intelligence</h3>
+            <p className="text-[10px] text-secondaryText mt-0.5">Behavioral risk assessment</p>
+          </div>
         </div>
         <div className={`px-2.5 py-1 text-xs font-bold rounded-full ${
           isHighRisk ? 'bg-brandRed/10 text-brandRed border border-brandRed/20' : 'bg-brandGreen/10 text-brandGreen border border-brandGreen/20'
         }`}>
-          Risk Score: {(risk_score * 100).toFixed(1)}%
+          {(risk_score * 100).toFixed(1)}% risk
         </div>
       </div>
 
       <div className="p-6 flex-1 overflow-y-auto">
+        <div className="mb-6 rounded-lg border border-darkBorder bg-darkBg/60 p-4">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-secondaryText">Decision confidence</span>
+            <span className="font-semibold text-primaryText">{status}</span>
+          </div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-darkPanel">
+            <div className={`h-full rounded-full ${isHighRisk ? 'bg-brandRed' : 'bg-brandGreen'}`} style={{ width: `${Math.min(100, Math.max(8, risk_score * 100))}%` }}></div>
+          </div>
+          <div className="mt-2 flex justify-between text-[10px] text-secondaryText"><span>Low risk</span><span>Review zone</span><span>High risk</span></div>
+        </div>
+
+        <div className="mb-6 rounded-lg border border-darkBorder bg-darkBg/40 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="text-sm font-semibold text-primaryText">Analyst review</h4>
+              <p className="mt-1 text-[10px] text-secondaryText">Record the human decision beside the model result.</p>
+            </div>
+            <span className={`rounded-full border px-2 py-1 text-[10px] font-semibold ${reviewStatus ? 'border-brandPurple/30 bg-brandPurple/10 text-brandPurple' : 'border-darkBorder bg-darkBg text-secondaryText'}`}>
+              {reviewStatus || 'Needs review'}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <button onClick={() => onReviewAction('Reviewed')} className="flex items-center justify-center gap-1 rounded border border-brandGreen/30 bg-brandGreen/10 px-2 py-2 text-[10px] font-semibold text-brandGreen hover:bg-brandGreen/20"><UserCheck size={12} /> Review</button>
+            <button onClick={() => onReviewAction('Escalated')} className="flex items-center justify-center gap-1 rounded border border-brandRed/30 bg-brandRed/10 px-2 py-2 text-[10px] font-semibold text-brandRed hover:bg-brandRed/20"><Flag size={12} /> Escalate</button>
+            <button onClick={() => onReviewAction('False positive')} className="flex items-center justify-center gap-1 rounded border border-darkBorder bg-darkBg px-2 py-2 text-[10px] font-semibold text-secondaryText hover:text-primaryText"><CheckCircle2 size={12} /> False positive</button>
+          </div>
+        </div>
         
         {/* Generative AI Explanation Section */}
         {isHighRisk && ai_analysis && (
@@ -61,7 +91,10 @@ const AIAnalysisPanel = ({ transaction }) => {
 
         {/* ML Features Section */}
         <div>
-          <h4 className="text-sm font-semibold text-secondaryText uppercase tracking-wider mb-3">Model Features</h4>
+          <div className="mb-3 flex items-center justify-between">
+            <h4 className="text-sm font-semibold text-secondaryText uppercase tracking-wider">Evidence captured</h4>
+            <span className="text-[10px] text-secondaryText">3 live signals</span>
+          </div>
           
           <div className="space-y-4">
             <div className="bg-darkBg rounded p-3 border border-darkBorder">
@@ -108,6 +141,20 @@ const AIAnalysisPanel = ({ transaction }) => {
 
           </div>
         </div>
+
+        {transactionAudit.length > 0 && (
+          <div className="mt-6 border-t border-darkBorder pt-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-secondaryText">Audit trail</h4>
+            <div className="mt-3 space-y-2">
+              {transactionAudit.slice(0, 3).map(entry => (
+                <div key={`${entry.timestamp}-${entry.action}`} className="flex items-center justify-between text-xs">
+                  <span className="text-primaryText">{entry.action}</span>
+                  <span className="text-[10px] text-secondaryText">{new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

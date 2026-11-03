@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Mic } from 'lucide-react';
 
 const VoiceGuardian = ({ transaction }) => {
@@ -56,13 +56,13 @@ const VoiceGuardian = ({ transaction }) => {
   const hasWarning = transaction?.ai_analysis != null;
 
   return (
-    <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 h-[300px] flex flex-col mt-4">
+    <div className="bg-darkPanel border border-darkBorder rounded-lg p-4 h-[300px] flex flex-col mt-4 shadow-[0_12px_30px_rgba(0,0,0,0.14)]">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <Volume2 className="text-brandPurple" size={20} />
           <div>
             <h3 className="font-bold text-primaryText">Voice Guardian</h3>
-            <p className="text-[10px] text-secondaryText">Audio fraud detection assistant</p>
+            <p className="text-[10px] text-secondaryText">Customer-facing warning channel</p>
           </div>
         </div>
         
@@ -94,9 +94,11 @@ const VoiceGuardian = ({ transaction }) => {
           <Mic size={24} />
         </div>
         
-        <p className="text-sm text-secondaryText mb-4">
+        <div className="mb-4 rounded-lg border border-darkBorder bg-darkBg/60 px-4 py-3 text-center">
+        <p className="text-sm text-secondaryText">
           {hasWarning ? "Tap to activate voice check" : "Select a suspicious transaction"}
         </p>
+        </div>
 
         <button 
           onClick={handleSpeak}
