@@ -1,0 +1,136 @@
+{
+  "primary_model": "XGBoost Classifier",
+  "ensemble": "XGBoost (60%) + Random Forest (25%) + Isolation Forest (15%)",
+  "dataset_size": 20000,
+  "test_size": 4000,
+  "fraud_cases": 763,
+  "accuracy": 0.8047,
+  "precision": 0.071,
+  "recall": 0.3399,
+  "f1_score": 0.1175,
+  "roc_auc": 0.6869,
+  "confusion_matrix": {
+    "true_negatives": 3167,
+    "false_positives": 680,
+    "false_negatives": 101,
+    "true_positives": 52
+  },
+  "feature_importances": [
+    {
+      "feature": "risk_signal_sum",
+      "importance": 0.14
+    },
+    {
+      "feature": "new_device_flag",
+      "importance": 0.1322
+    },
+    {
+      "feature": "transaction_velocity",
+      "importance": 0.1024
+    },
+    {
+      "feature": "is_night_transaction",
+      "importance": 0.091
+    },
+    {
+      "feature": "ip_location_mismatch",
+      "importance": 0.0808
+    },
+    {
+      "feature": "failed_attempts_last_24h",
+      "importance": 0.0541
+    },
+    {
+      "feature": "is_elderly",
+      "importance": 0.0475
+    },
+    {
+      "feature": "user_loyalty_score",
+      "importance": 0.0433
+    },
+    {
+      "feature": "amount_deviation_score",
+      "importance": 0.0417
+    },
+    {
+      "feature": "amount_ratio",
+      "importance": 0.0405
+    },
+    {
+      "feature": "user_avg_monthly_txn",
+      "importance": 0.0404
+    },
+    {
+      "feature": "user_avg_txn_value",
+      "importance": 0.0387
+    },
+    {
+      "feature": "hour_of_day",
+      "importance": 0.0387
+    },
+    {
+      "feature": "amount",
+      "importance": 0.0385
+    },
+    {
+      "feature": "transaction_frequency_score",
+      "importance": 0.0377
+    },
+    {
+      "feature": "is_weekend",
+      "importance": 0.0325
+    }
+  ],
+  "threshold_analysis": [
+    {
+      "threshold": 0.2,
+      "precision": 0.0521,
+      "recall": 0.9477,
+      "f1": 0.0987
+    },
+    {
+      "threshold": 0.3,
+      "precision": 0.0578,
+      "recall": 0.7974,
+      "f1": 0.1079
+    },
+    {
+      "threshold": 0.4,
+      "precision": 0.0666,
+      "recall": 0.5686,
+      "f1": 0.1193
+    },
+    {
+      "threshold": 0.5,
+      "precision": 0.0761,
+      "recall": 0.3072,
+      "f1": 0.1219
+    },
+    {
+      "threshold": 0.6,
+      "precision": 0.1126,
+      "recall": 0.1699,
+      "f1": 0.1354
+    },
+    {
+      "threshold": 0.7,
+      "precision": 0.1429,
+      "recall": 0.0261,
+      "f1": 0.0442
+    }
+  ],
+  "risk_levels": {
+    "low": {
+      "range": "0.00 - 0.29",
+      "description": "No significant suspicious indicators detected. Safe to proceed."
+    },
+    "medium": {
+      "range": "0.30 - 0.69",
+      "description": "Unusual characteristics detected. Caution recommended."
+    },
+    "high": {
+      "range": "0.70 - 1.00",
+      "description": "Multiple high-risk indicators detected. Action blocked / safety warning."
+    }
+  }
+}

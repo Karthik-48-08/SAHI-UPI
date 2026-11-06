@@ -12,8 +12,19 @@ class MLProcessManager {
     const scriptPath = path.join(__dirname, '..', '..', 'ml_engine', 'inference.py');
     console.log(`Starting Python ML Process at ${scriptPath}`);
     
-    // Assumes python is available in PATH. You may need to change this to 'python3' depending on the environment
-    this.pythonProcess = spawn('python', [scriptPath]);
+    // Assumes python is available in PATH. Use shell: true on Windows
+    try {
+      this.pythonProcess = spawn('python', [scriptPath], { shell: true });
+    } catch (err) {
+      console.warn("Could not spawn python process:", err);
+      this.isReady = false;
+      return;
+    }
+
+    this.pythonProcess.on('error', (err) => {
+      console.warn('Python process error:', err.message);
+      this.isReady = false;
+    });
 
     this.pythonProcess.stdout.on('data', (data) => {
       const lines = data.toString().split('\n');

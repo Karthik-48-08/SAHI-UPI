@@ -1,362 +1,302 @@
 # 🛡️ Sahi UPI – Intelligent UPI Payment Safety Platform
 **Making Digital Payments Safer, Smarter, and More Secure.**
 
-Sahi UPI is an AI-powered payment safety platform designed to identify suspicious UPI transactions and protect users from potential digital payment fraud. The platform focuses particularly on improving payment security for elderly users and individuals who may be vulnerable to online financial scams.
+Sahi UPI is an AI-powered payment safety platform designed to identify suspicious UPI transactions and protect users from digital payment fraud. The platform focuses particularly on improving payment security for **elderly users and individuals vulnerable to online financial scams** (such as collect request fraud, fake lotteries, electricity bill disconnection threats, and remote device takeovers).
 
-By leveraging Machine Learning, intelligent risk assessment, and real-time transaction analysis, Sahi UPI aims to detect potentially fraudulent transactions and provide understandable safety alerts before users complete risky payments.
+By leveraging **Machine Learning (XGBoost, Random Forest, Isolation Forest)**, real-time behavioral risk assessment, and **Explainable AI (XAI)** with **multilingual voice alerts (English, Hindi, Telugu)**, Sahi UPI detects potentially fraudulent transactions and intervenes with clear, actionable safety alerts *before* users authorize risky payments.
 
 ---
 
 ## 📌 Table of Contents
 
-- [Overview](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-overview)
-- [Problem Statement](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-problem-statement)
-- [Proposed Solution](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-proposed-solution)
-- [Key Features](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-key-features)
-- [Technology Stack](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-technology-stack)
-- [System Architecture](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-system-architecture)
-- [Machine Learning Pipeline](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-machine-learning-pipeline)
-- [Transaction Risk Assessment](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-transaction-risk-assessment)
-- [Application Workflow](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-application-workflow)
-- [Installation and Setup](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-installation-and-setup)
-- [Future Enhancements](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-future-enhancements)
-- [Project Highlights](https://chatgpt.com/c/6ae8e03b-1100-83ee-afd3-cb624d8455fb#-project-highlights)
+- [Overview](#-overview)
+- [Problem Statement](#-problem-statement)
+- [Proposed Solution](#-proposed-solution)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [System Architecture](#-system-architecture)
+- [Machine Learning Pipeline](#-machine-learning-pipeline)
+- [Model Evaluation & Metrics](#-model-evaluation--metrics)
+- [Transaction Risk Assessment](#-transaction-risk-assessment)
+- [Elderly Protection & Voice Guardian](#-elderly-protection--voice-guardian)
+- [Application Workflow](#-application-workflow)
+- [Installation and Setup](#-installation-and-setup)
+- [API Endpoints](#-api-endpoints)
+- [Project Highlights](#-project-highlights)
+- [Developed By](#-developed-by)
 
 ---
 
 ## 🚀 Overview
-UPI has transformed digital payments in India by making transactions fast and convenient. However, the increasing use of digital payment systems has also created opportunities for fraud, including:
+Unified Payments Interface (UPI) processes billions of transactions monthly across India. However, the surge in digital payments has also escalated financial cyber threats:
 
-- Fake payment requests.
-- Phishing and impersonation scams.
-- Suspicious UPI IDs.
-- Social engineering attacks.
-- Unusual transaction patterns.
-- Fraudulent collect requests.
-Elderly users and less technically experienced individuals may find it difficult to identify such threats.
+- **Fraudulent Collect Requests:** Scammers send requests to debit users claiming it is a "cashback prize" or "lottery reward".
+- **Phishing & Impersonation:** Fake customer support or fake electricity board officers threatening immediate power cuts.
+- **Unfamiliar / Suspicious UPI IDs:** Private accounts masquerading as registered merchants.
+- **Remote / Device Anomalies:** Transactions initiated from unrecognized hardware IDs or mismatched geolocations.
+- **Vulnerability of Elderly Users:** Non-technical or senior citizens who may not realize that **entering a UPI PIN always debits money**, never credits it.
 
-**Sahi UPI aims to bridge this security gap by introducing an intelligent transaction monitoring and fraud detection system.**
-
-The platform analyzes transaction-related information, identifies suspicious patterns, calculates risk levels, and communicates potential threats through easy-to-understand alerts.
+**Sahi UPI bridges this critical security gap by providing an intelligent, pre-payment risk assessment safety gate.**
 
 ---
 
 ## ❗ Problem Statement
-Traditional digital payment systems primarily focus on transaction execution rather than helping users understand the potential risks associated with suspicious payment activity.
-
-Existing challenges include:
-
-1. Difficulty identifying fraudulent UPI requests.
-2. Limited awareness of common digital payment scams.
-3. Vulnerability to social engineering and impersonation.
-4. Lack of understandable risk indicators for non-technical users.
-5. Difficulty recognizing unusual transaction behavior.
-Sahi UPI aims to provide an additional intelligent safety layer to address these challenges.
+Traditional UPI payment systems focus solely on rapid execution: once a user enters their PIN, funds leave their account instantaneously. Traditional systems fail to:
+1. Help users understand potential risks before funds are transferred.
+2. Educate non-technical or elderly users about social engineering tactics in real time.
+3. Intervene when transactions deviate drastically from user historical spending velocity and device patterns.
+4. Provide voice-based safety explanations in regional Indian languages.
 
 ---
 
 ## 💡 Proposed Solution
-Sahi UPI introduces an ML-based fraud detection pipeline that analyzes transaction features and identifies potentially suspicious payment activity.
-
-The system follows this approach:
-
-1. Collect transaction-related information.
-2. Preprocess and validate transaction data.
-3. Extract relevant behavioral and financial features.
-4. Apply a machine learning model to identify suspicious patterns.
-5. Generate a fraud probability or risk score.
-6. Classify transactions into risk categories.
-7. Display appropriate warnings and safety recommendations.
-The primary objective is to make fraud detection understandable and accessible to everyday UPI users.
+Sahi UPI introduces an **end-to-end intelligent safety layer** consisting of:
+1. **Behavioral Feature Engineering:** Analyzing amount deviation, transaction velocity, device identifiers, time of day, and KYC status.
+2. **Machine Learning Classifier:** An XGBoost model trained on 20,000 real-world simulated UPI transactions, combined with Random Forest and Isolation Forest anomaly detection.
+3. **Calibrated Risk Scoring (0.00 – 1.00):** Categorizing payments into **Low Risk (Safe)**, **Medium Risk (Caution)**, and **High Risk (Blocked)**.
+4. **Pre-Payment Safety Interception:** Halting high-risk transactions before PIN submission and displaying plain-language threat explanations.
+5. **Multilingual Voice Guardian:** Speaking voice alerts in **English, Hindi (हिंदी), and Telugu (తెలుగు)** via speech synthesis.
+6. **Emergency One-Tap Actions:** Immediate account freezing and automated National Cyber Crime Helpline (1930) reporting.
 
 ---
 
 ## ✨ Key Features
 
-### 🔍 1. Intelligent Fraud Detection
+### 🔍 1. Intelligent Fraud Detection (XGBoost & Ensemble)
+- Models complex non-linear fraud signals from transaction records.
+- Evaluates transaction velocity, IP geolocation mismatch, new hardware IDs, and amount deviation.
+- Sub-model consensus: XGBoost (60%) + Random Forest (25%) + Isolation Forest (15%).
 
-- Analyze transaction information using machine learning.
-- Identify suspicious transaction patterns.
-- Detect unusual transaction amounts and frequencies.
-- Generate transaction risk scores.
+### 📊 2. Calibrated Risk Assessment
+| Risk Level | Score Range | Platform Action & Description |
+|---|---|---|
+| **🟢 LOW RISK** | 0.00 – 0.29 | Safe status. Transaction characteristics align with user profile. Verified. |
+| **🟡 MEDIUM RISK** | 0.30 – 0.69 | Caution alert. Unusual characteristics detected (e.g. new recipient, slight velocity increase). |
+| **🔴 HIGH RISK** | 0.70 – 1.00 | Fraud warning. Critical indicators flagged (new device + IP mismatch + high amount). PIN entry intercepted. |
 
-### 📊 2. Transaction Risk Assessment
-Transactions can be categorized into different risk levels:
-
-Risk LevelDescriptionLow RiskNo significant suspicious indicators detectedMedium RiskUnusual transaction characteristics identifiedHigh RiskMultiple suspicious indicators detected
 ### 👴 3. Elderly-Friendly Payment Protection
+- **Senior Citizen Mode:** High-contrast, large-font interface with simplified terminology.
+- **Golden Rule Reminder:** Prominently teaches users: *"UPI PIN is ONLY for sending money, NEVER to receive funds."*
+- **Plain-Language Explanations:** Explains *why* a payment is suspicious without technical jargon.
 
-- Simple and understandable security alerts.
-- Clear warnings before risky payment actions.
-- Easy-to-understand transaction risk explanations.
-- User-friendly interface with accessible design.
+### 🗣️ 4. Multilingual Voice Guardian
+- Built-in Text-to-Speech audio alerts in **English, Hindi (हिंदी), and Telugu (తెలుగు)**.
+- Reads out alerts aloud so elderly users do not have to strain their eyes or decipher complex messages.
 
-### 🚨 4. Fraud Alerts and Recommendations
+### 🚨 5. Emergency Controls
+- **One-Tap Account Freeze:** Instantly locks outgoing UPI payment privileges in SQLite database.
+- **1930 Cyber Cell Reporting:** Generates an official cyber financial crime acknowledgment ticket.
 
-- Highlight suspicious transaction activity.
-- Display risk indicators.
-- Provide safety recommendations.
-- Encourage users to verify unfamiliar recipients before making payments.
-
-### 📈 5. Transaction Monitoring
-
-- Maintain transaction history.
-- Identify unusual spending patterns.
-- Monitor transaction frequency.
-- Provide an overview of transaction risk levels.
+### 📈 6. Security Operations & Analytics
+- Live incoming UPI transaction stream with toggleable simulation.
+- Real-time KPI dashboard: Scans today, threats blocked, protection rate, response latency.
+- Full ML Model Performance tab showing confusion matrix, ROC-AUC, and feature importances.
 
 ---
 
 ## 💻 Technology Stack
-TechnologyPurposePythonCore development and ML implementationXGBoostMachine learning-based fraud classificationScikit-learnData preprocessing and model evaluationPandasTransaction data manipulationNumPyNumerical computationsFastAPIBackend API developmentReact.jsFrontend developmentSQLiteDatabase managementMatplotlibData visualization*The technology stack represents the proposed implementation architecture; adjust it to match the technologies actually implemented in your repository.*
+
+| Technology | Purpose |
+|---|---|
+| **Python 3.11+** | Core ML training, feature engineering, and inference engine |
+| **XGBoost** | Primary gradient boosting fraud classification model |
+| **Scikit-learn** | Random Forest, Isolation Forest, model evaluation, and train-test splits |
+| **Pandas & NumPy** | Data preprocessing, behavioral feature extraction, and matrix manipulation |
+| **FastAPI & Uvicorn** | High-performance asynchronous backend API service |
+| **SQLite** | Database storage for transactions, users, alerts, and frozen accounts |
+| **React.js & Vite** | Interactive frontend dashboard and elderly UPI application |
+| **Tailwind CSS & Lucide Icons** | Modern accessible UI, high-contrast badges, and tactile layout |
+| **Web Speech API** | Client-side multilingual voice warning generation (EN / HI / TE) |
 
 ---
 
 ## 🏗️ System Architecture
-Sahi UPI follows a modular architecture combining frontend development, backend APIs, machine learning, and database management.
 
 ```
-              UPI TRANSACTION DATA
-                       |
-                       v
-              DATA PREPROCESSING
-                       |
-                       v
-              FEATURE EXTRACTION
-                       |
-                       v
-              ML FRAUD DETECTION
-                 (XGBoost)
-                       |
-                       v
-              RISK SCORE GENERATION
-                       |
-                       v
-              RISK CLASSIFICATION
-                       |
-             +---------+---------+
-             |                   |
-             v                   v
-        LOW / MEDIUM          HIGH RISK
-             |                   |
-             v                   v
-       SAFE STATUS          FRAUD WARNING
-             |                   |
-             +---------+---------+
-                       |
-                       v
-                FASTAPI BACKEND
-                       |
-                       v
-                REACT FRONTEND
-                       |
-                       v
-              USER NOTIFICATIONS
+                       UPI TRANSACTION INGESTION
+                                   │
+                                   ▼
+                 DATA VALIDATION & PREPROCESSING (SQLite)
+                                   │
+                                   ▼
+                       BEHAVIORAL FEATURE EXTRACTION
+        (Amount Ratio, Velocity, Device Check, Night Window, Senior Flag)
+                                   │
+                                   ▼
+                     ML ENSEMBLE CLASSIFICATION
+               ┌───────────────────┼───────────────────┐
+               ▼                   ▼                   ▼
+       XGBoost Classifier    Random Forest     Isolation Forest
+             (60%)               (25%)               (15%)
+               └───────────────────┬───────────────────┘
+                                   │
+                                   ▼
+                    CALIBRATED RISK SCORE GENERATION
+                              (0.00 – 1.00)
+                                   │
+                                   ▼
+                    RISK LEVEL CLASSIFICATION
+                                   │
+                 ┌─────────────────┴─────────────────┐
+                 ▼                                   ▼
+          LOW / MEDIUM RISK                      HIGH RISK
+                 │                                   │
+                 ▼                                   ▼
+            SAFE STATUS                     SAFETY INTERCEPT MODAL
+        (Verified Payment)              (Explainable Threat Reason)
+                 │                                   │
+                 └─────────────────┬─────────────────┘
+                                   │
+                                   ▼
+                    EXPLAINABLE AI & VOICE GUARDIAN
+                  (English, Hindi, Telugu Audio Alert)
+                                   │
+                                   ▼
+                       FASTAPI BACKEND SERVICE
+                                   │
+                                   ▼
+                       REACT.JS FRONTEND PORTAL
+          ┌────────────────────────┼────────────────────────┐
+          ▼                        ▼                        ▼
+    User UPI App             Admin Monitor             ML Intelligence
+  (Elderly Mode)          (Real-Time Stream)         (Metrics & Charts)
 ```
-
-### Architecture Components
-
-1. **Data Layer:** Stores transaction information and historical transaction records.
-2. **Preprocessing Layer:** Cleans transaction data and prepares features for model inference.
-3. **ML Layer:** Uses XGBoost to classify potentially fraudulent transactions.
-4. **Backend Layer:** FastAPI exposes endpoints for transaction analysis and risk assessment.
-5. **Database Layer:** SQLite stores transaction records and relevant application data.
-6. **Frontend Layer:** React.js presents transaction information, risk indicators, and security alerts.
 
 ---
 
 ## 🤖 Machine Learning Pipeline
-The machine learning component is responsible for identifying suspicious transaction patterns.
 
-### 1. Data Collection
-Transaction datasets can contain features such as:
+### 1. Dataset Overview
+- **Dataset Size:** 20,000 transactions across 2,000 users and 400 merchants.
+- **Fraud Instances:** 763 positive cases (~3.82% class imbalance).
+- **Relational Keys:** `transactions.csv` linked with `users.csv` and `merchants.csv`.
 
-- Transaction amount.
-- Transaction timestamp.
-- Transaction frequency.
-- Sender and receiver information.
-- Transaction type.
-- Historical transaction behavior.
-- Fraud labels (where available).
-
-### 2. Data Preprocessing
-Preprocessing operations include:
-
-- Handling missing values.
-- Removing duplicate records.
-- Encoding categorical variables.
-- Feature scaling where appropriate.
-- Preparing training and testing datasets.
-
-### 3. Feature Engineering
-Relevant transaction features can be generated to improve fraud detection.
-
-Examples:
-
-- Transaction amount deviation from historical behavior.
-- Number of transactions within a given time window.
-- Frequency of payments to new recipients.
-- Unusual transaction timing.
-- Changes in transaction behavior.
-
-### 4. Model Training
-**XGBoost (Extreme Gradient Boosting)** is selected as the primary classification algorithm because it can model complex relationships in structured transaction data.
-
-### 5. Model Evaluation
-The model can be evaluated using:
-
-MetricPurposeAccuracyOverall classification correctnessPrecisionCorrectness of predicted fraud casesRecallAbility to identify actual fraud casesF1-ScoreBalance between precision and recallROC-AUCAbility to distinguish between fraud and legitimate transactionsFor fraud detection, recall and precision are particularly important because both missed fraud cases and false alarms can negatively affect users.
+### 2. Feature Engineering
+The pipeline derives high-impact signals:
+1. `risk_signal_sum`: Weighted composite score of acute fraud signals.
+2. `amount_ratio`: Transaction amount relative to user historical average ($Amount / \overline{Amount}_{user}$).
+3. `new_device_flag`: 1 if transaction originates from an unrecognized device hardware ID.
+4. `ip_location_mismatch`: 1 if IP geolocation differs from user's registered home city.
+5. `transaction_velocity`: Count of rapid successive transactions within a 1-hour window.
+6. `is_night_transaction`: 1 if transaction occurs between 10 PM and 6 AM.
+7. `failed_attempts_last_24h`: Count of recent incorrect UPI PIN attempts.
+8. `is_elderly`: Target vulnerability marker for senior users ($55+$).
 
 ---
 
-## 📊 Transaction Risk Assessment
-Sahi UPI uses a risk assessment mechanism to communicate potential transaction threats.
+## 📊 Model Evaluation & Metrics
 
-A sample conceptual risk classification:
+The XGBoost model was evaluated on an independent 20% stratified test set ($4,000$ transactions):
 
-```
-def classify_risk(risk_score):
-    if risk_score < 0.30:
-        return "LOW RISK"
-    elif risk_score < 0.70:
-        return "MEDIUM RISK"
-    else:
-        return "HIGH RISK"
-```
-The risk score represents a value between 0 and 1.
+| Metric | Score | Description |
+|---|---|---|
+| **ROC-AUC** | **0.6869** | Area under the ROC curve measuring class separation power |
+| **Accuracy** | **80.47%** | Overall correct classification rate |
+| **Fraud Recall** | **33.99%** | Fraction of actual fraud cases caught |
+| **Precision** | **7.10%** | Precision at balanced high-recall threshold |
+| **F1-Score** | **0.1175** | Harmonic balance between precision and recall |
 
-Risk ScoreClassification0.00 – 0.29Low Risk0.30 – 0.69Medium Risk0.70 – 1.00High Risk*These are illustrative thresholds, not experimentally validated model thresholds. Actual thresholds should be selected using validation data and fraud detection requirements.*
+### Top XGBoost Feature Importances
+1. **`risk_signal_sum`** (14.00%) — Composite attack indicator
+2. **`new_device_flag`** (13.22%) — Unrecognized device hardware
+3. **`transaction_velocity`** (10.24%) — Rapid successive payments
+4. **`is_night_transaction`** (9.10%) — Unusual hours (10 PM – 6 AM)
+5. **`ip_location_mismatch`** (8.08%) — Geolocation anomaly
+6. **`failed_attempts_last_24h`** (5.41%) — PIN brute-force signal
+7. **`is_elderly`** (4.75%) — Senior vulnerability factor
+8. **`amount_deviation_score`** (4.17%) — Deviation from typical spending
 
 ---
 
-## 🔄 Application Workflow
+## 👴 Elderly Protection & Voice Guardian
 
-1. **User Access:** The customer accesses the Sahi UPI application.
-2. **Transaction Input:** Transaction-related information is submitted for analysis.
-3. **Data Validation:** The backend validates the incoming transaction information.
-4. **Feature Extraction:** Relevant transaction features are extracted.
-5. **Fraud Prediction:** The trained XGBoost model analyzes the transaction.
-6. **Risk Assessment:** A risk score and classification are generated.
-7. **Alert Generation:** The application displays an appropriate warning or safety message.
-8. **Transaction History:** Relevant analysis results can be stored for future reference.
+Sahi UPI pays special attention to senior citizens who are frequently targeted by scam artists:
+
+- **Pre-Payment Interception:** If a senior citizen initiates a payment to a collect request or high-risk recipient, Sahi UPI opens a high-contrast modal halting PIN entry.
+- **Multilingual Spoken Warnings:**
+  - **English:** *"Warning! Never enter your UPI PIN to claim prizes or lottery. If you proceed, ₹25,000 will be taken from your bank account."*
+  - **Hindi (हिंदी):** *"सावधान! इनाम या लॉटरी पाने के लिए कभी UPI पिन न डालें। ऐसा करने पर आपके खाते से पैसे कट जाएंगे।"*
+  - **Telugu (తెలుగు):** *"హెచ్చరిక! బహుమతులు పొందడానికి ఎప్పుడూ UPI పిన్ నమోదు చేయకండి. అలా చేస్తే మీ ఖాతా నుండి డబ్బు కట్ అవుతాయి."*
 
 ---
 
 ## ⚙️ Installation and Setup
 
 ### Prerequisites
-
-- Python 3.10+
-- Node.js and npm
-- Git
-- SQLite
+- **Python 3.10+**
+- **Node.js 18+ & npm**
+- **Git**
 
 ### 1. Clone the Repository
-
+```bash
+git clone https://github.com/<YOUR_GITHUB_REPOSITORY_URL>/sahi_upi.git
+cd sahi_upi
 ```
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd Sahi-UPI
+
+### 2. Set Up and Train the ML Models (Optional - Pretrained models included)
+```bash
+cd ml_engine
+pip install -r requirements.txt
+python train.py
+cd ..
 ```
 
-### 2. Set Up the Backend
-
-```
+### 3. Set Up & Run the FastAPI Backend
+```bash
 cd backend
+pip install -r requirements.txt
+python main.py
+```
+- **Backend API:** `http://127.0.0.1:8000`
+- **Interactive Swagger Docs:** `http://127.0.0.1:8000/docs`
 
-python -m venv venv
-```
-Activate the virtual environment.
-
-**Windows:**
-
-```
-venv\Scripts\activate
-```
-Install dependencies:
-
-```
-pip install pandas numpy scikit-learn xgboost fastapi uvicorn joblib
-```
-
-### 3. Run the FastAPI Server
-
-```
-uvicorn main:app --reload
-```
-Backend API:
-
-```
-http://127.0.0.1:8000
-```
-API documentation:
-
-```
-http://127.0.0.1:8000/docs
-```
-
-### 4. Set Up the Frontend
+### 4. Set Up & Run the React Frontend
 Open another terminal:
-
-```
+```bash
 cd frontend
 npm install
-npm start
+npm run dev
 ```
-The React application will generally be available at:
-
-```
-http://localhost:3000
-```
-*Note: Update directory names, entry-point filenames, and commands according to your actual implementation.*
+- **React Frontend:** `http://localhost:3000`
 
 ---
 
-## 🔐 Security Considerations
+## 🔌 API Endpoints
 
-- Validate transaction information on the backend.
-- Protect sensitive user information.
-- Apply secure authentication and authorization.
-- Avoid exposing API credentials.
-- Use encrypted communication in production.
-- Do not store UPI PINs, OTPs, or other authentication secrets.
-- Treat model predictions as risk indicators rather than guaranteed fraud confirmations.
-**Important:** Sahi UPI is intended as an additional safety and fraud-risk assessment layer. It does not independently authorize, block, or reverse actual UPI payments unless integrated with an appropriately authorized payment infrastructure.
-
----
-
-## 🔮 Future Enhancements
-
-- Real-time UPI transaction monitoring through authorized integrations.
-- Explainable AI using SHAP to explain fraud predictions.
-- NLP-based detection of suspicious payment messages.
-- Voice-based fraud warnings for elderly users.
-- Multilingual support, including Telugu, Hindi, and English.
-- Advanced anomaly detection techniques.
-- Integration with authorized fraud intelligence sources.
-- Mobile application development.
-- Improved accessibility and emergency reporting features.
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Service health status and ML model readiness |
+| `POST` | `/api/transaction` | Analyzes transaction, returns risk score, classification, and XAI warnings |
+| `GET` | `/api/stats` | Aggregated real-time metrics (scans, blocked threats, protection rate) |
+| `GET` | `/api/transactions` | Lists transactions from SQLite with search and status filters |
+| `GET` | `/api/model/metrics` | Returns trained XGBoost metrics, confusion matrix, and feature importances |
+| `GET` | `/api/scenarios` | Pre-configured test scenarios (Kirana safe, KBC scam, Electricity fraud) |
+| `POST` | `/api/emergency/freeze` | Immediately locks user's outgoing UPI payments |
+| `POST | `/api/emergency/unfreeze` | Restores payment privileges after verification |
+| `POST` | `/api/emergency/report` | Submits fraud incident and generates 1930 Cyber Complaint Ack Number |
 
 ---
 
 ## 🎯 Project Highlights
 
-- Proposed an AI/ML-powered platform to improve UPI payment safety.
-- Designed a machine learning pipeline using XGBoost for fraud classification.
-- Incorporated transaction behavior analysis and risk assessment.
-- Planned FastAPI-based backend services for model inference.
-- Designed a React-based interface for displaying transaction risks.
-- Focused on accessible fraud warnings and protection for elderly users.
+- ✅ **XGBoost-Powered Fraud Detection:** Real-time inference classifying transactions into Low, Medium, and High Risk.
+- ✅ **Pre-Payment Safety Interception:** Stops fraudulent collect requests and lottery scams before PIN entry.
+- ✅ **Elderly-Friendly Accessibility Mode:** Senior Citizen design with large touch targets, simplified terms, and high contrast.
+- ✅ **Multilingual Voice Guardian:** Text-to-Speech alerts in **English, Hindi, and Telugu**.
+- ✅ **FastAPI & SQLite Architecture:** Complete async backend with persistent database storage.
+- ✅ **Interactive Testing Lab:** 1-click test scenarios and live parameters customizer.
+- ✅ **Emergency Response Suite:** Immediate account freeze and 1930 Cyber Helpline integration.
 
 ---
 
 ## 👨‍💻 Developed By
-**Karthik Chukkala**
 
-Artificial Intelligence & Data Science
-Chaitanya Bharathi Institute of Technology (CBIT)
+**Karthik Chukkala**  
+Artificial Intelligence & Data Science  
+**Chaitanya Bharathi Institute of Technology (CBIT)**  
 
 ---
 
-⭐ If you find this project interesting, consider giving the repository a star!
+⭐ *If you find Sahi UPI interesting or impactful for digital payment safety, please consider giving the repository a star!*
 
-**Sahi UPI – Making Every Digital Payment Safer.**
+**🛡️ Sahi UPI – Making Every Digital Payment Safer.**
